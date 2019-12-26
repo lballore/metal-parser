@@ -23,6 +23,7 @@ setup(
     url='https://github.com/lucone83/metal-parser',
     project_urls={
         'Bug Reports': 'https://github.com/lucone83/metal-parser/issues',
+        'Disclaimer': 'https://github.com/lucone83/metal-parser/blob/master/DISCLAIMER.md',
         'Docs': 'https://metal-parser.readthedocs.io/',
         'Funding': 'https://donate.pypi.org',
         'Source': 'https://github.com/lucone83/metal-parser'

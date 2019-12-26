@@ -9,12 +9,12 @@ At the moment there is only one supported website, which is [DarkLyrics].
 ## Description
 
 This library scrapes the corresponding website for the lyrics and returns results according to the used API.
-**Kindly read the [disclaimer](DISCLAIMER.md) to ensure that your use complies with it**.
+**Kindly read the [disclaimer](https://github.com/lucone83/metal-parser/blob/master/DISCLAIMER.md) to ensure that your use complies with it**.
 
 
 ## Installation
 
-_metallyrics_ is distributed as a Python package, freely available on [PyPI]() and can easily be installed via pip.
+_metallyrics_ is distributed as a Python package, freely available on [PyPI](https://pypi.org/project/metalparser/) and can easily be installed via pip.
 
 ```
 pip install metallyrics
