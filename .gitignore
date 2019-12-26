@@ -1,0 +1,12 @@
+__pycache__
+build
+dist
+
+*.egg*
+
+.eggs
+.pytest_cache
+.sqlite
+.vscode
+
+metalparser_cache.sqlite

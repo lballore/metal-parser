@@ -1,0 +1,5 @@
+include DISCLAIMER.md
+include README.md
+include LICENSE
+
+recursive-include metalparser/common *.json
