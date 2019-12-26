@@ -10,6 +10,7 @@ Welcome to metalparser's documentation!
    :maxdepth: 5
    :caption: Contents:
 
+   user_guide
    metalparser
 
 
