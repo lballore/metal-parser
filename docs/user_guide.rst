@@ -7,27 +7,27 @@ User guide
 Description
 -----------
 
-**metallyrics** is a Python API for obtaining song lyrics from diverse
+**metalparser** is a Python API for obtaining song lyrics from diverse
 lyrics websites. At the moment there is only one supported website,
 which is `DarkLyrics <http://www.darklyrics.com/>`__, an online database
 of lyrics for heavy metal music.
 
 
 This library scrapes the corresponding website for the lyrics and
-returns results according to the used API. **Kindly read the
+returns results according to the used API. Kindly read the
 `disclaimer <https://github.com/lucone83/metal-parser/blob/master/DISCLAIMER.md>`__
-to ensure that your use complies with it**.
+to ensure that your use complies with it.
 
 Installation
 ------------
 
-*metallyrics* is distributed as a Python package, freely available on
+*metalparser* is distributed as a Python package, freely available on
 `PyPI <https://pypi.org/project/metalparser/>`__ and can easily be
 installed via pip. Given that you are using ``python >= 3.5``:
 
 ::
 
-    pip install metallyrics
+    pip install metalparser
 
 Alternatively, it can be manually installed by cloning this project on
 your local computer:
@@ -40,12 +40,14 @@ your local computer:
 Documentation
 -------------
 
-The library comes (at the moment) with 6 APIs: - get\_songs -
-get\_albums - get\_artists - get\_lyrics\_by\_artist -
-get\_lyrics\_by\_album - get\_lyrics\_by\_song
+The library comes (at the moment) with 6 APIs:
 
-More complete docs regarding this project can be found on
-`readthedocs <https://metalparser.readthedocs.io/>`__.
+* get\_songs
+* get\_albums
+* get\_artists
+* get\_lyrics\_by\_artist
+* get\_lyrics\_by\_album
+* get\_lyrics\_by\_song
 
 Some examples
 ~~~~~~~~~~~~~
@@ -56,7 +58,7 @@ Some examples
 
     api = DarkLyricsApi()
 
-Retrieve the lyrics given a song and the corresponding artist:
+Retrieve the lyrics given a song and the corresponding artist
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
@@ -67,7 +69,7 @@ Retrieve the lyrics given a song and the corresponding artist:
 
     print(lyrics)
 
-Get all the songs of a specific album:
+Get all the songs of a specific album
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
@@ -79,7 +81,7 @@ Get all the songs of a specific album:
 
     print(songs_list)
 
-Get all the albums of a specific artist:
+Get all the albums of a specific artist
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::

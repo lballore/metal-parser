@@ -1,6 +1,6 @@
-# metallyrics
+# metalparser
 
-**metallyrics** is a Python API for obtaining song lyrics from diverse lyrics websites.
+**metalparser** is a Python API for obtaining song lyrics from diverse lyrics websites.
 At the moment there is only one supported website, which is [DarkLyrics](http://www.darklyrics.com/), an online database of lyrics for heavy metal music.
 
 
@@ -12,11 +12,11 @@ This library scrapes the corresponding website for the lyrics and returns result
 
 ## Installation
 
-_metallyrics_ is distributed as a Python package, freely available on [PyPI](https://pypi.org/project/metalparser/) and can easily be installed via pip.
+_metalparser_ is distributed as a Python package, freely available on [PyPI](https://pypi.org/project/metalparser/) and can easily be installed via pip.
 Given that you are using ```python >= 3.5```:
 
 ```
-pip install metallyrics
+pip install metalparser
 ```
 
 Alternatively, it can be manually installed by cloning this project on your local computer:

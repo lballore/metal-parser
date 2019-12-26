@@ -1,5 +1,5 @@
-metalparser package
-===================
+Docstring: metalparser package
+==============================
 
 .. automodule:: metalparser
    :members:
