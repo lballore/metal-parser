@@ -30,7 +30,7 @@ pip install .
 
 ## Documentation
 
-All the documentation regarding this project can be found on [readthedocs](https://metal-parser.readthedocs.io/).
+All the documentation regarding this project can be found on [readthedocs](https://metalparser.readthedocs.io/).
 
 
 ## Support
