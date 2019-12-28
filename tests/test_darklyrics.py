@@ -138,6 +138,14 @@ def test_get_albums_list_from_artist_value_negative(create_api_object):
     assert 'Reign In Blood' not in albums_list
 
 
+def test_get_albums_list_from_artist_having_ep(create_api_object):
+    api = create_api_object()
+    artist = "[,SILU:'ET]"
+    albums_list = api.get_albums(artist=artist)
+
+    assert 'Theory Of Dream' in albums_list
+
+
 # ------------------------ get_artists() API ------------------------- #
 
 
@@ -244,6 +252,15 @@ def test_get_lyrics_by_song(create_api_object):
     lyrics = api.get_lyrics_by_song(song=song, artist=artist)
 
     assert 'in the age of confusion' in lyrics.lower()
+
+
+def test_get_lyrics_by_song_with_special_chars(create_api_object):
+    api = create_api_object()
+    song = 'stovi stovi berželis'
+    artist = 'žalvarinis'
+    lyrics = api.get_lyrics_by_song(song=song, artist=artist)
+
+    assert 'ir atjojo bernelis prie' in lyrics.lower()
 
 
 def test_get_lyrics_by_song_negative(create_api_object):
