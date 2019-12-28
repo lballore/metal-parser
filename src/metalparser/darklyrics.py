@@ -88,7 +88,7 @@ class DarkLyricsApi():
         album_headlines = artist_page.find_all('h2')
         albums_list = []
         for line in album_headlines:
-            if(len(line.text.split('"')) > 1 and 'album' in line.text.lower()):
+            if(len(line.text.split('"')) > 1 and any(elem in line.text.lower() for elem in ['album', 'ep'])):
                 albums_list.append(line.text.split('"')[1])
 
         return albums_list

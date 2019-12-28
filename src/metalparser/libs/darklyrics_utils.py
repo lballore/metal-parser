@@ -1,3 +1,6 @@
+import re
+import string
+
 from bs4 import BeautifulSoup
 from metalparser.common.scraping import ScrapingAgent
 from metalparser.common.exceptions import ArtistNotFoundException, LyricsNotFoundException, SongsNotFoundException
@@ -220,7 +223,7 @@ class DarkLyricsHelper:
     def __get_search_url(self, song, artist):
         """Build an URL with a query usable by DarkLyrics.com internal search engine."""
 
-        query = self.__sanitize_search_query(artist + '+' + song)
+        query = self.__sanitize_search_query(artist + ' ' + song)
         url = self.BASE_URL + 'search?q=' + query
 
         return url
@@ -237,37 +240,37 @@ class DarkLyricsHelper:
         return self.BASE_URL + index + '/' + artist + '.html'
 
     def __sanitize_artist_url(self, artist):
-        """Clean an string and make it compatible to a DarkLyrics.com artist URL"""
+        """Clean a string and make it compatible to a DarkLyrics.com artist URL"""
 
-        artist = artist.lower()     \
-            .replace(' ', '')       \
-            .replace('...', '')     \
-            .replace('+\\-', '2')    \
-            .replace("'", '')       \
-            .replace('&', '')       \
-            .replace('ø', 'o')      \
-            .replace('ä', 'a')      \
-            .replace('å', 'a')      \
-            .replace(u'æ', u'e')    \
-            .replace('.', '')       \
-            .replace(':', '')       \
-            .replace(',', '')       \
-            .replace('[', '')       \
-            .replace(']', '')       \
-            .replace('(', '')       \
-            .replace(')', '')       \
-            .replace('/', '')
+        # Lowercase
+        artist = artist.lower()
+        # Special cases
+        artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar')
+        # Replace nordic chars with another letter
+        artist.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
+        # Remove punctuation signs
+        artist = re.sub(r'[' + re.escape(string.punctuation) + ']', '', artist)
+        # Remove other special chars
+        artist = re.sub(r'[äæøáéíóúýïëüêčďěňřšťžėūãõ]', '', artist)
+        # Remove whitespaces
+        artist = re.sub(r'[' + re.escape(string.whitespace) + ']', '', artist)
 
         return artist
 
     def __sanitize_search_query(self, query):
         """Clean a string and make it compatible to a DarkLyrics.com search engine query"""
 
-        query = query.replace('"', '')
-        query = query.replace('/', ' ')
-        query = query.replace(' -', '')
-        query = query.replace('- ', '')
-        query = query.replace('  ', ' ')
-        query = query.replace('ã', '')
+        # Lowercase
+        query = query.lower()
+        # Special cases
+        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar')
+        # Replace nordic chars with another letter
+        query.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
+        # Remove punctuation signs
+        query = re.sub(r'[' + re.escape(string.punctuation) + ']', '', query)
+        # Remove other special chars
+        query = re.sub(r'[äæøáéíóúýïëüêčďěňřšťžėūãõ]', '', query)
+        # Replace whitespaces with '+'
+        query = re.sub(r'[' + re.escape(string.whitespace) + ']', '+', query)
 
         return query
