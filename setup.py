@@ -28,7 +28,7 @@ setup(
     packages=find_packages('src', exclude='tests'),
     package_dir={'': 'src'},
     include_package_data=True,
-    python_requires='>=3.6.*, <3.8.*',
+    python_requires='>=3.4.*, <4',
     master_doc='index',
     install_requires=['beautifulsoup4', 'ratelimit', 'requests', 'requests_cache'],
     keywords='heavy metal darklyrics lyrics song api'

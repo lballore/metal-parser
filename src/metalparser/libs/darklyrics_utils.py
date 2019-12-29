@@ -71,7 +71,7 @@ class DarkLyricsHelper:
 
         if 'not Found' in artist_page.title.string:
             raise ArtistNotFoundException(
-                f'Artist page for "{artist.title()}" not found at URL: {url}. Is it on darklyrics.com?'
+                'Artist page for "{}" not found at URL: {}. Is it on darklyrics.com?'.format(artist.title(), url)
             )
         else:
             return artist_page
@@ -108,7 +108,7 @@ class DarkLyricsHelper:
             links = artist_page.find_all('a')
 
         if links is None:
-            raise SongsNotFoundException(f'Songs not found for the artist "{artist.title()}" and the album "{album.title()}".')
+            raise SongsNotFoundException('Songs not found for the artist "{}" and the album "{}".'.format(artist.title(), album.title()))
 
         return links
 
@@ -134,11 +134,11 @@ class DarkLyricsHelper:
         for sen in sens:
             a = sen.find('a')
             if a:
-                link = self.BASE_URL + '/' + a.get('href')
+                link = self.BASE_URL + a.get('href')
                 if link.find('#') != -1:
                     return link
 
-        raise LyricsNotFoundException(f'Lyrics for "{song}" not found at URL: {url}')
+        raise LyricsNotFoundException('Lyrics for "{}" not found at URL: {}'.format(song, url))
 
     def get_lyrics_url_by_tag(self, link_tag):
         """
@@ -159,7 +159,7 @@ class DarkLyricsHelper:
 
             return url
         else:
-            raise LyricsNotFoundException(f'Lyrics URL for the song "{link_tag.text}" not found.')
+            raise LyricsNotFoundException('Lyrics URL for the song "{}" not found.'.format(link_tag.text))
 
     def get_lyrics_by_url(self, url):
         """
@@ -184,7 +184,7 @@ class DarkLyricsHelper:
         lyrics_div = lyrics_page.find('div', class_='lyrics')
 
         if lyrics_div is None:
-            raise LyricsNotFoundException(f'No lyrics found at URL: {url}. Check if URL exists or try to clean the cache.')
+            raise LyricsNotFoundException('No lyrics found at URL: {}. Check if URL exists or try to clean the cache.'.format(url))
 
         song_lyrics = lyrics_div.prettify().split('</h3>')[song_number]
 

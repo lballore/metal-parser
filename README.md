@@ -81,9 +81,13 @@ print(albums_list)
 
 ## Support
 
-Currently the following python versions are supported
-- 3.6
-- 3.7
+Currently the following python versions are supported:
+
+- 3.4.*
+- 3.5.*
+- 3.6.*
+- 3.7.*
+- 3.8.*
 
 
 ## Thanks to
