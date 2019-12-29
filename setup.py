@@ -14,11 +14,8 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.7'
     ],
     url='https://github.com/lucone83/metal-parser',
     project_urls={
@@ -31,7 +28,7 @@ setup(
     packages=find_packages('src', exclude='tests'),
     package_dir={'': 'src'},
     include_package_data=True,
-    python_requires='>=3.5.*',
+    python_requires='>=3.6.*, <3.8.*',
     master_doc='index',
     install_requires=['beautifulsoup4', 'ratelimit', 'requests', 'requests_cache'],
     keywords='heavy metal darklyrics lyrics song api'

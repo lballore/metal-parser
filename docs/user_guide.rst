@@ -94,7 +94,10 @@ Get all the albums of a specific artist
 Support
 -------
 
-Currently the following python versions are supported - 3.5 - 3.6 - 3.7
+Currently the following python versions are supported:
+
+* 3.6.*
+* 3.7.*
 
 Thanks to
 ---------
