@@ -134,7 +134,7 @@ class DarkLyricsHelper:
         for sen in sens:
             a = sen.find('a')
             if a:
-                link = self.BASE_URL + '/' + a.get('href')
+                link = self.BASE_URL + a.get('href')
                 if link.find('#') != -1:
                     return link
 
