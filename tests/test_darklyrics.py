@@ -187,6 +187,7 @@ def test_get_lyrics_by_artist(create_api_object):
     api = create_api_object()
     artist = 'blind guardian'
     lyrics_list = api.get_lyrics_by_artist(artist=artist)
+    found_lyrics = None
 
     for lyrics in lyrics_list:
         if lyrics['album'] == 'Nightfall In Middle-Earth' and lyrics['title'] == 'Captured':
@@ -213,9 +214,9 @@ def test_get_lyrics_by_album(create_api_object):
     artist = 'slayer'
     album = 'reign in blood'
     lyrics_list = api.get_lyrics_by_album(album=album, artist=artist)
+    found_lyrics = None
 
     for lyrics in lyrics_list:
-        found_lyrics = None
         if lyrics['title'] == 'Postmortem' and lyrics['track_no'] == 9:
             found_lyrics = lyrics
             break
