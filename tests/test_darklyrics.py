@@ -48,7 +48,7 @@ def test_get_songs_list_from_artist_album_artist_negative(create_api_object):
         songs_only = True
         api.get_songs(artist, songs_only, album)
 
-    assert f'Artist page for "{artist.title()}" not found' in str(e)
+    assert 'Artist page for "{}" not found'.format(artist.title()) in str(e)
 
 
 def test_get_songs_list_from_artist_album_album_negative(create_api_object):
@@ -59,7 +59,7 @@ def test_get_songs_list_from_artist_album_album_negative(create_api_object):
         songs_only = True
         api.get_songs(artist, songs_only, album)
 
-    assert f'Songs not found for the artist "{artist.title()}" and the album "{album.title()}".' in str(e)
+    assert 'Songs not found for the artist "{}" and the album "{}".'.format(artist.title(), album.title()) in str(e)
 
 
 def test_get_songs_list_from_artist_album_song_negative(create_api_object):
@@ -127,7 +127,7 @@ def test_get_albums_list_from_artist_negative(create_api_object):
         artist = 'unexistent band'
         api.get_albums(artist=artist)
 
-    assert f'Artist page for "{artist.title()}" not found' in str(e)
+    assert 'Artist page for "{}" not found'.format(artist.title()) in str(e)
 
 
 def test_get_albums_list_from_artist_value_negative(create_api_object):
@@ -202,7 +202,7 @@ def test_get_lyrics_by_artist_negative(create_api_object):
         artist = 'unexisting band'
         api.get_lyrics_by_artist(artist=artist)
 
-    assert f'Artist page for "{artist.title()}" not found' in str(e)
+    assert 'Artist page for "{}" not found'.format(artist.title()) in str(e)
 
 
 # -------------------- get_lyrics_by_album() API --------------------- #
@@ -229,7 +229,7 @@ def test_get_lyrics_by_album_negative(create_api_object):
         album = 'ride the lightning'
         api.get_lyrics_by_album(album=album, artist=artist)
 
-    assert f'Songs not found for the artist "{artist.title()}" and the album "{album.title()}".' in str(e)
+    assert 'Songs not found for the artist "{}" and the album "{}".'.format(artist.title(), album.title()) in str(e)
 
 
 def test_get_lyrics_by_album_artist_negative(create_api_object):
@@ -239,7 +239,7 @@ def test_get_lyrics_by_album_artist_negative(create_api_object):
         album = 'ride the lightning'
         api.get_lyrics_by_album(album=album, artist=artist)
 
-    assert f'Artist page for "{artist.title()}" not found' in str(e)
+    assert 'Artist page for "{}" not found'.format(artist.title()) in str(e)
 
 
 # -------------------- get_lyrics_by_song() API ---------------------- #
@@ -270,4 +270,4 @@ def test_get_lyrics_by_song_negative(create_api_object):
         artist = 'dismember'
         api.get_lyrics_by_song(song=song, artist=artist)
 
-    assert f'Lyrics for "{song}" not found' in str(e)
+    assert 'Lyrics for "{}" not found'.format(song) in str(e)
