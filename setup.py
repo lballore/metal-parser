@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metalparser',
-    version='0.4.0-rc2',
+    version='0.4.9-rc3',
     description='Python library for heavy metal song lyrics, albums, song titles and other info.',
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -14,8 +14,11 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8'
     ],
     url='https://github.com/lucone83/metal-parser',
     project_urls={
