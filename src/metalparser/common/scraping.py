@@ -33,13 +33,17 @@ class ScrapingAgent:
 
     get_cached_session(self)
         Returns the cached_session attribute.
+
+    get_last_response(self)
+        Returns the last Response object corresponding to the last request made by the ScrapingAgent.
     """
 
     def __init__(self, use_cache=True):
         self.cache_validity = 7200
         self.cached_session = self.__create_cached_session() if use_cache is True else None
+        self.last_response = None
 
-        if self.cached_session:
+        if use_cache:
             self.__remove_expired_entries()
 
     def get_page_from_url(self, url):
@@ -72,6 +76,16 @@ class ScrapingAgent:
 
         return self.cached_session
 
+    def get_last_response(self):
+        """
+        Returns the last Response object corresponding to the last request made by the ScrapingAgent.
+
+        Returns:
+            [Response or None] -- The Response object corresponding to the last request made by the ScrapingAgent.
+        """
+
+        return self.last_response
+
     def __remove_expired_entries(self):
         """Removes expired entries from cache storage."""
 
@@ -87,7 +101,8 @@ class ScrapingAgent:
         cached_session = requests_cache.CachedSession(
             'metalparser_cache',
             backend='sqlite',
-            expire_after=self.cache_validity
+            expire_after=self.cache_validity,
+            include_get_headers=False
         )
 
         return cached_session
@@ -95,20 +110,28 @@ class ScrapingAgent:
     @sleep_and_retry
     @limits(calls=60, period=60)
     def __get_response_with_limiter(self, url):
-        """Calls __get_response with a limit amount of calls per minute."""
+        """Make an HTTP request to darklyrics.com with a limited amount of calls per minute."""
 
-        response = self.__get_response(url)
+        if self.cached_session is None:
+            headers = self.__get_headers()
+            response = requests.get(url, headers=headers)
+        else:
+            response = self.cached_session.get(url)
+
+        self.last_response = response
+        time.sleep(2)  # Avoid too many reqs per second, which can lead to a blacklist
 
         return response
 
     def __get_response_without_limiter(self, url):
-        """Calls __get_response without any limit amount of calls per minute. Used with cached URLs."""
+        """Retrieve the response from cache, given that the URL is cached."""
 
-        response = self.__get_response(url)
+        response = self.cached_session.get(url)
+        self.last_response = response
 
         return response
 
-    def __get_response(self, url):
+    def __get_headers(self):
         """
         Make an HTTP request and returns the response.
         If the URL is cached, then returns a response from the persistent sqlite cache.
@@ -119,18 +142,12 @@ class ScrapingAgent:
             'User-Agent': user_agent
         }
 
-        if self.cached_session:
-            response = self.cached_session.get(url, headers=headers)
-        else:
-            time.sleep(3)  # Avoid too many reqs per second, which can lead to a blacklist
-            response = requests.get(url, headers=headers)
-
-        return response
+        return headers
 
     def __is_cached(self, url):
         """Check if an URL is already cached."""
 
-        if not self.cached_session:
+        if self.cached_session is None:
             return False
 
         return self.cached_session.cache.has_url(url)

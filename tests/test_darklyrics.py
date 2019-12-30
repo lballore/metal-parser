@@ -27,6 +27,38 @@ def test_create_api_object_without_cached_session(create_api_object):
     assert api.helper.scraping_agent.get_cached_session() is None
 
 
+def test_cached_request_with_cached_session(create_api_object):
+    api = create_api_object()
+    api.helper.scraping_agent.get_cached_session().cache.clear()
+
+    api.get_lyrics_by_song(song='another day', artist='dream theater')
+    # This request is about a song from the same album, which page should now be cached
+    api.get_lyrics_by_song(song='take the time', artist='dream theater')
+
+    last_response = api.helper.scraping_agent.get_last_response()
+
+    assert hasattr(last_response, 'from_cache') and last_response.from_cache is True
+
+
+def test_not_cached_request_with_cached_session(create_api_object):
+    api = create_api_object()
+    api.helper.scraping_agent.get_cached_session().cache.clear()
+
+    api.get_lyrics_by_song(song='somewhere', artist='within temptation')
+    last_response = api.helper.scraping_agent.get_last_response()
+
+    assert hasattr(last_response, 'from_cache') and last_response.from_cache is False
+
+
+def test_request_without_cached_session(create_api_object):
+    api = create_api_object(use_cache=False)
+
+    api.get_lyrics_by_song(song='somewhere', artist='within temptation')
+    last_response = api.helper.scraping_agent.get_last_response()
+
+    assert hasattr(last_response, 'from_cache') is False
+
+
 # ------------------------- get_songs() API -------------------------- #
 
 
@@ -171,13 +203,14 @@ def test_get_artists_list_given_initial_letter_artist_negative(create_api_object
     assert 'Dimmu Borgir' not in artists_list
 
 
-def test_get_all_artists_on_darklyrics(create_api_object):
-    api = create_api_object()
-    artists_list = api.get_artists()
-
-    assert 'Dissection' in artists_list
-    assert 'Sepultura' in artists_list
-    assert 'Testament' in artists_list
+# *** THIS IS REDUNDANT ON TRAVIS. Activate for LOCAL TESTING ONLY. ***
+# def test_get_all_artists_on_darklyrics(create_api_object):
+#     api = create_api_object()
+#     artists_list = api.get_artists()
+#
+#     assert 'Dissection' in artists_list
+#     assert 'Sepultura' in artists_list
+#     assert 'Testament' in artists_list
 
 
 # ------------------- get_lyrics_by_artists() API -------------------- #
