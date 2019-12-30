@@ -27,6 +27,38 @@ def test_create_api_object_without_cached_session(create_api_object):
     assert api.helper.scraping_agent.get_cached_session() is None
 
 
+def test_cached_request_with_cached_session(create_api_object):
+    api = create_api_object()
+    api.helper.scraping_agent.get_cached_session().cache.clear()
+
+    api.get_lyrics_by_song(song='another day', artist='dream theater')
+    # This request is about a song from the same album, which page should now be cached
+    api.get_lyrics_by_song(song='take the time', artist='dream theater')
+
+    last_response = api.helper.scraping_agent.get_last_response()
+
+    assert hasattr(last_response, 'from_cache') and last_response.from_cache is True
+
+
+def test_not_cached_request_with_cached_session(create_api_object):
+    api = create_api_object()
+    api.helper.scraping_agent.get_cached_session().cache.clear()
+
+    api.get_lyrics_by_song(song='somewhere', artist='within temptation')
+    last_response = api.helper.scraping_agent.get_last_response()
+
+    assert hasattr(last_response, 'from_cache') and last_response.from_cache is False
+
+
+def test_request_without_cached_session(create_api_object):
+    api = create_api_object(use_cache=False)
+
+    api.get_lyrics_by_song(song='somewhere', artist='within temptation')
+    last_response = api.helper.scraping_agent.get_last_response()
+
+    assert hasattr(last_response, 'from_cache') is False
+
+
 # ------------------------- get_songs() API -------------------------- #
 
 
