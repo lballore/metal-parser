@@ -203,13 +203,14 @@ def test_get_artists_list_given_initial_letter_artist_negative(create_api_object
     assert 'Dimmu Borgir' not in artists_list
 
 
-def test_get_all_artists_on_darklyrics(create_api_object):
-    api = create_api_object()
-    artists_list = api.get_artists()
-
-    assert 'Dissection' in artists_list
-    assert 'Sepultura' in artists_list
-    assert 'Testament' in artists_list
+# *** THIS IS REDUNDANT ON TRAVIS. Activate for LOCAL TESTING ONLY. ***
+# def test_get_all_artists_on_darklyrics(create_api_object):
+#     api = create_api_object()
+#     artists_list = api.get_artists()
+#
+#     assert 'Dissection' in artists_list
+#     assert 'Sepultura' in artists_list
+#     assert 'Testament' in artists_list
 
 
 # ------------------- get_lyrics_by_artists() API -------------------- #
