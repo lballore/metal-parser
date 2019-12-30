@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metalparser',
-    version='0.4.9-rc3',
+    version='0.5.0-rc3',
     description='Python library for heavy metal song lyrics, albums, song titles and other info.',
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -31,7 +31,7 @@ setup(
     packages=find_packages('src', exclude='tests'),
     package_dir={'': 'src'},
     include_package_data=True,
-    python_requires='>=3.4.*, <4',
+    python_requires='>=3.4.*, <=3.8',
     master_doc='index',
     install_requires=['beautifulsoup4', 'ratelimit', 'requests', 'requests_cache'],
     keywords='heavy metal darklyrics lyrics song api'
