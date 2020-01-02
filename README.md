@@ -54,7 +54,7 @@ api = DarkLyricsApi()
 ```
 song = 'under grey skies'
 artist = 'kamelot'
-lyrics = api.get_lyrics_by_song(song=song, artist=artist)
+lyrics = api.get_song_info_and_lyrics(song=song, artist=artist, lyrics_only=True)
 
 print(lyrics)
 
@@ -65,8 +65,7 @@ print(lyrics)
 ```
 artist = 'pantera'
 album = 'vulgar display of power'
-songs_only = True
-songs_list = api.get_songs(artist, songs_only, album)
+songs_list = api.get_songs_info(artist, album=album, title_only=True)
 
 print(songs_list)
 ```
@@ -75,7 +74,7 @@ print(songs_list)
 
 ```
 artist = 'iron maiden'
-albums_list = api.get_albums(artist=artist)
+albums_list = api.get_albums_info(artist=artist, title_only=True)
 
 print(albums_list)
 ```

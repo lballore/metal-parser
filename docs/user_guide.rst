@@ -66,7 +66,7 @@ Retrieve the lyrics given a song and the corresponding artist
 
     song = 'under grey skies'
     artist = 'kamelot'
-    lyrics = api.get_lyrics_by_song(song=song, artist=artist)
+    lyrics = api.get_song_info_and_lyrics(song=song, artist=artist, lyrics_only=True)
 
     print(lyrics)
 
@@ -77,8 +77,7 @@ Get all the songs of a specific album
 
     artist = 'pantera'
     album = 'vulgar display of power'
-    songs_only = True
-    songs_list = api.get_songs(artist, songs_only, album)
+    songs_list = api.get_songs_info(artist, album=album, title_only=True)
 
     print(songs_list)
 
@@ -88,7 +87,7 @@ Get all the albums of a specific artist
 ::
 
     artist = 'iron maiden'
-    albums_list = api.get_albums(artist=artist)
+    albums_list = api.get_albums_info(artist=artist, title_only=True)
 
     print(albums_list)
 
