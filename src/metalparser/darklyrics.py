@@ -16,84 +16,30 @@ class DarkLyricsApi():
 
     Methods
     -------
-    get_songs(self, artist, songs_only=True, album=None)
-        Returns a list containing the songs titles (and other info when specified) related to a single artist or album (when specified).
-
-    get_albums(self, artist)
-        Returns a list containing all the albums titles related to an artist.
-
-    get_artists(self, initial_letter=None)
+    get_artists_list(self, initial_letter=None)
         Returns a list with all the artists registered on DarkLyrics.com.
         When specified, it returns a list of artists starting with an initial.
 
-    get_lyrics_by_artist(self, artist)
+    get_albums_info(self, artist, title_only=False)
+        Returns a list containing all the albums titles related to an artist.
+
+    get_songs_info(self, artist, album=None, title_only=False)
+        Returns a list containing the songs titles (and other info when specified) related to a single artist or album (when specified).
+
+    get_albums_info_and_lyrics_by_artist(self, artist)
         Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an artist on DarkLyrics.com.
 
-    get_lyrics_by_album(self, album, artist)
+    get_album_lyrics_and_info(self, album, artist)
         Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an album on DarkLyrics.com.
 
-    def get_lyrics_by_song(self, song, artist)
+    def get_song_lyrics_and_info(self, song, artist)
         Returns a str containing the lyrics of the specified song.
     """
 
     def __init__(self, use_cache=True):
         self.helper = DarkLyricsHelper(use_cache)
 
-    def get_songs(self, artist, songs_only=True, album=None):
-        """
-        Returns a list containing the songs titles related to a single artist or album (when specified).
-
-        Arguments:
-            artist {str} -- The artist's name
-
-        Keyword Arguments:
-            songs_only {bool} --
-            album {str} -- The album name (optional) (default: {None})
-
-        Returns:
-            [list] -- A list of str containing the songs titles related to a single artist or album (when specified)
-        """
-
-        links = self.helper.get_songs_links_from_artist(artist, album)
-        songs_list = []
-
-        for link in links:
-            if '/lyrics' not in link.attrs['href']:
-                continue
-            if songs_only:
-                songs_list.append(link.text)
-            else:
-                link_href = link.attrs['href'].replace('../', self.helper.get_base_url())
-                songs_list.append({
-                    "title": link.text,
-                    "song_link": link_href,
-                    "album_link": link_href.split('#')[0],
-                    "album_track": link_href.split('#')[1]
-                })
-
-        return songs_list
-
-    def get_albums(self, artist):
-        """
-        Returns a list containing all the albums titles related to an artist.
-
-        Arguments:
-            artist {str} -- The artist's name
-
-        Returns:
-            [list] -- A list of str containing all the albums titles related to an artist
-        """
-
-        artist_page = self.helper.get_artist_page(artist)
-        album_headlines = artist_page.find_all('h2')
-        albums_list = []
-        for line in album_headlines:
-            if(len(line.text.split('"')) > 1 and any(elem in line.text.lower() for elem in ['album', 'ep'])):
-                albums_list.append(line.text.split('"')[1])
-
-        return albums_list
-
-    def get_artists(self, initial_letter=None):
+    def get_artists_list(self, initial_letter=None):
         """
         Returns a list with all the artists registered on DarkLyrics.com.
         When specified, it returns a list of artists starting with an initial.
@@ -126,7 +72,59 @@ class DarkLyricsApi():
 
         return sorted(artists)
 
-    def get_lyrics_by_artist(self, artist):
+    def get_albums_info(self, artist, title_only=False):
+        """
+        Returns a list containing all the albums titles related to an artist.
+
+        Arguments:
+            artist {str} -- The artist's name
+
+        Returns:
+            [list] -- A list of str containing all the albums titles related to an artist
+        """
+
+        artist_page = self.helper.get_artist_page(artist)
+        albums_list = self.helper.get_albums_info_from_artist_page(artist_page, title_only=title_only)
+
+        return albums_list
+
+    def get_songs_info(self, artist, album=None, title_only=False):
+        """
+        Returns a list containing the songs titles related to a single artist or album (when specified).
+
+        Arguments:
+            artist {str} -- The artist's name
+
+        Keyword Arguments:
+            songs_only {bool} --
+            album {str} -- The album name (optional) (default: {None})
+
+        Returns:
+            [list] -- A list of str containing the songs titles related to a single artist or album (when specified)
+        """
+
+        links = self.helper.get_songs_links_from_artist(artist, album)
+        songs_list = []
+
+        for link in links:
+            if '/lyrics' not in link.attrs['href']:
+                continue
+            elif title_only:
+                songs_list.append(link.text)
+            else:
+                link_href = link.attrs['href'].replace('../', self.helper.get_base_url())
+                album_info = self.helper.get_albums_info_from_url(link_href.split('#')[0])
+                songs_list.append({
+                    "title": link.text,
+                    "song_link": link_href,
+                    "album": album_info["title"],
+                    "album_track": link_href.split('#')[1],
+                    "release_year": album_info["release_year"]
+                })
+
+        return songs_list
+
+    def get_albums_info_and_lyrics_by_artist(self, artist):
         """
         Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an artist on DarkLyrics.com.
 
@@ -134,50 +132,56 @@ class DarkLyricsApi():
             artist {str} -- The artist's name
 
         Returns:
-            [list] -- A list of dict containing name, title, album, track number and lyrics of all the songs related to the specified artist
+            [list] -- A list of dict containing info and lyrics of all the songs related to the specified artist.
         """
 
-        albums = self.get_albums(artist)
-        lyrics_list = []
+        albums = self.get_albums_info(artist, title_only=True)
+        albums_info_lyrics = []
 
         for album in albums:
-            album_lyrics = self.get_lyrics_by_album(album, artist)
-            for lyrics in album_lyrics:
-                lyrics_list.append(lyrics)
+            album_info_lyrics = self.get_album_lyrics_and_info(album, artist)
+            albums_info_lyrics += album_info_lyrics
 
-        return lyrics_list
+        return albums_info_lyrics
 
-    def get_lyrics_by_album(self, album, artist):
+    def get_album_lyrics_and_info(self, album, artist, lyrics_only=False):
         """
-        Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an album on DarkLyrics.com.
+        Returns a list of dict containing info and lyrics of all the songs related to an album on DarkLyrics.com.
 
         Arguments:
             album {str} -- The title of the album
             artist {str} -- The artist's name
 
         Returns:
-            [list] -- A list of dict containing name, title, album, track number and lyrics of all the songs related to the specified album
+            [list] -- A list of dict containing info and lyrics about of all the songs related to the specified album or
+                      a list of str containing only the lyrics of the specified album, depending on the lyrics_only flag.
         """
 
         lyrics_list = []
-        songs_links = self.helper.get_songs_links_from_artist(artist, album)
+        songs_links = self.helper.get_songs_links_from_artist(artist, album=album)
+        album_url = self.helper.get_lyrics_url_by_tag(songs_links[0])
+        album_info = self.helper.get_albums_info_from_url(album_url)
 
         try:
             for song_link in songs_links:
                 url = self.helper.get_lyrics_url_by_tag(song_link)
-                index = int(url.split('#')[1])
-                lyrics_list.append({
-                    "album": album.title(),
-                    "title": song_link.text,
-                    "track_no": index,
-                    "lyrics": self.helper.get_lyrics_by_url(url)
-                })
+                if lyrics_only is True:
+                    lyrics_list.append(self.helper.get_lyrics_by_url(url))
+                else:
+                    lyrics_list.append({
+                        "artist": artist.title(),
+                        "album": album_info['title'],
+                        "release_year": album_info['release_year'],
+                        "title": song_link.text,
+                        "track_no": int(url.split('#')[1]),
+                        "lyrics": self.helper.get_lyrics_by_url(url)
+                    })
         except MetalParserException as e:
             print(str(e))
 
         return lyrics_list
 
-    def get_lyrics_by_song(self, song, artist):
+    def get_song_lyrics_and_info(self, song, artist, lyrics_only=False):
         """
         Returns a str containing the lyrics of the specified song.
 
@@ -186,10 +190,21 @@ class DarkLyricsApi():
             artist {str} -- The artist's name
 
         Returns:
-            [str] --  A str containing the lyrics of the specified song.
+            [dict or str] -- A dict containing info and lyrics about a song of a certain artist or
+                             a str containing only the lyrics of the specified song, depending on the lyrics_only flag.
         """
 
         lyrics_url = self.helper.get_lyrics_url_by_song(song, artist)
-        song_lyrics = self.helper.get_lyrics_by_url(lyrics_url)
+        album_info = self.helper.get_albums_info_from_url(lyrics_url)  # a lyrics url is in fact an album url with a bookmark
 
-        return song_lyrics
+        if lyrics_only is True:
+            return self.helper.get_lyrics_by_url(lyrics_url)
+        else:
+            return {
+                "artist": artist.title(),
+                "album": album_info['title'],
+                "release_year": album_info['release_year'],
+                "title": song,
+                "track_no": int(lyrics_url.split('#')[1]),
+                "lyrics": self.helper.get_lyrics_by_url(lyrics_url)
+            }
