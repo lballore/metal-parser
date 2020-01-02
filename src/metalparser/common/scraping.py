@@ -119,7 +119,7 @@ class ScrapingAgent:
             response = self.cached_session.get(url)
 
         self.last_response = response
-        time.sleep(2)  # Avoid too many reqs per second, which can lead to a blacklist
+        time.sleep(1)  # Avoid too many reqs per second, which can lead to a blacklist
 
         return response
 

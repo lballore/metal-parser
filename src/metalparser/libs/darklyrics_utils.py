@@ -140,7 +140,7 @@ class DarkLyricsHelper:
                 if title_only is False:
                     albums_list.append({
                         'title': line.text.split('"')[1],
-                        'type': line.text.split('"')[0],
+                        'type': line.text.split('"')[0].replace(':', '').strip(),
                         'release_year': line.text.split('(')[1].replace(')', '')
                     })
                 else:
@@ -175,7 +175,7 @@ class DarkLyricsHelper:
             return {
                 'title': album_info_text.split('"')[1],
                 'release_year': album_info_text.split('(')[1].replace(')', ''),
-                'type': album_info_text.split('"')[0]
+                'type': album_info_text.split('"')[0].replace(':', '').strip()
             }
 
     def get_lyrics_url_by_song(self, song, artist):

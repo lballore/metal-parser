@@ -26,13 +26,13 @@ class DarkLyricsApi():
     get_songs_info(self, artist, album=None, title_only=False)
         Returns a list containing the songs titles (and other info when specified) related to a single artist or album (when specified).
 
+    get_album_info_and_lyrics(self, album, artist)
+        Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an album on DarkLyrics.com.
+
     get_albums_info_and_lyrics_by_artist(self, artist)
         Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an artist on DarkLyrics.com.
 
-    get_album_lyrics_and_info(self, album, artist)
-        Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an album on DarkLyrics.com.
-
-    def get_song_lyrics_and_info(self, song, artist)
+    def get_song_info_and_lyrics(self, song, artist)
         Returns a str containing the lyrics of the specified song.
     """
 
@@ -124,27 +124,7 @@ class DarkLyricsApi():
 
         return songs_list
 
-    def get_albums_info_and_lyrics_by_artist(self, artist):
-        """
-        Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an artist on DarkLyrics.com.
-
-        Arguments:
-            artist {str} -- The artist's name
-
-        Returns:
-            [list] -- A list of dict containing info and lyrics of all the songs related to the specified artist.
-        """
-
-        albums = self.get_albums_info(artist, title_only=True)
-        albums_info_lyrics = []
-
-        for album in albums:
-            album_info_lyrics = self.get_album_lyrics_and_info(album, artist)
-            albums_info_lyrics += album_info_lyrics
-
-        return albums_info_lyrics
-
-    def get_album_lyrics_and_info(self, album, artist, lyrics_only=False):
+    def get_album_info_and_lyrics(self, album, artist, lyrics_only=False):
         """
         Returns a list of dict containing info and lyrics of all the songs related to an album on DarkLyrics.com.
 
@@ -181,7 +161,27 @@ class DarkLyricsApi():
 
         return lyrics_list
 
-    def get_song_lyrics_and_info(self, song, artist, lyrics_only=False):
+    def get_albums_info_and_lyrics_by_artist(self, artist):
+        """
+        Returns a list of dict containing name, title, album, track number and lyrics of all the songs related to an artist on DarkLyrics.com.
+
+        Arguments:
+            artist {str} -- The artist's name
+
+        Returns:
+            [list] -- A list of dict containing info and lyrics of all the songs related to the specified artist.
+        """
+
+        albums = self.get_albums_info(artist, title_only=True)
+        albums_info_lyrics = []
+
+        for album in albums:
+            album_info_lyrics = self.get_album_info_and_lyrics(album, artist)
+            albums_info_lyrics += album_info_lyrics
+
+        return albums_info_lyrics
+
+    def get_song_info_and_lyrics(self, song, artist, lyrics_only=False):
         """
         Returns a str containing the lyrics of the specified song.
 
