@@ -22,7 +22,8 @@ pip install metalparser
 Alternatively, it can be manually installed by cloning this project on your local computer:
 
 ```
-cd <project-folder>
+git clone https://github.com/lucone83/metal-parser.git
+cd metal-parser
 pip install .
 ```
 
@@ -30,12 +31,13 @@ pip install .
 ## Documentation
 
 The library comes (at the moment) with 6 APIs:
-- get_songs
-- get_albums
-- get_artists
-- get_lyrics_by_artist
-- get_lyrics_by_album
-- get_lyrics_by_song
+
+- get_artists_list()
+- get_albums_info()
+- get_songs_info()
+- get_album_info_and_lyrics()
+- get_albums_info_and_lyrics_by_artist()
+- get_song_info_and_lyrics()
 
 More complete docs regarding this project can be found on [readthedocs](https://metalparser.readthedocs.io/).
 

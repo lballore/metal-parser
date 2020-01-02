@@ -28,6 +28,12 @@ class DarkLyricsHelper:
     get_songs_links_from_artist(self, artist, album=None)
         Returns a links list containing all the lyrics URLs related to an artist or an album.
 
+    get_albums_info_from_artist_page(self, artist_page, all_info=False):
+        Given the artist page, returns infos about the albums.
+
+    get_albums_info_from_url(self, url):
+        Returns album info given the album's URL.
+
     get_lyrics_url_by_song(self, song, artist)
         Given a song title and the artist, returns the link related to the lyrics.
 
@@ -111,6 +117,66 @@ class DarkLyricsHelper:
             raise SongsNotFoundException('Songs not found for the artist "{}" and the album "{}".'.format(artist.title(), album.title()))
 
         return links
+
+    def get_albums_info_from_artist_page(self, artist_page, title_only=False):
+        """
+        Given the artist page, retrieve infos about the albums.
+
+        Arguments:
+            artist_page {BeautifulSoup} -- The artist page in BeautifulSoup format.
+
+        Keyword Arguments:
+            all_info {bool} -- Flag to determinate if returning all albums info or title only (default: {False})
+
+        Returns:
+            [list] -- List of albums (str list or dict list, depending on all_info)
+        """
+
+        album_headlines = artist_page.find_all('h2')
+        albums_list = []
+
+        for line in album_headlines:
+            if(len(line.text.split('"')) > 1 and any(elem in line.text.lower() for elem in ['album', 'ep', 'demo'])):
+                if title_only is False:
+                    albums_list.append({
+                        'title': line.text.split('"')[1],
+                        'type': line.text.split('"')[0].replace(':', '').strip(),
+                        'release_year': line.text.split('(')[1].replace(')', '')
+                    })
+                else:
+                    albums_list.append(line.text.split('"')[1])
+
+        return albums_list
+
+    def get_albums_info_from_url(self, url):
+        """
+        Returns album info given the album's URL.
+
+        Arguments:
+            url {str} -- The album's URL
+
+        Returns:
+            [dict] -- A dict with the following album info: title, release year and type (album, EP).
+        """
+
+        if '../lyrics' in url:
+            url = url.replace('../', self.BASE_URL)
+
+        album_page = self.scraping_agent.get_page_from_url(url)
+        album_info_text = album_page.select_one('div.albumlyrics > h2').text
+
+        if 'non-album' in album_info_text:
+            return {
+                'title': '',
+                'release_year': '',
+                'type': 'non-album songs'
+            }
+        else:
+            return {
+                'title': album_info_text.split('"')[1],
+                'release_year': album_info_text.split('(')[1].replace(')', ''),
+                'type': album_info_text.split('"')[0].replace(':', '').strip()
+            }
 
     def get_lyrics_url_by_song(self, song, artist):
         """

@@ -34,7 +34,8 @@ your local computer:
 
 ::
 
-    cd <project-folder>
+    git clone https://github.com/lucone83/metal-parser.git
+    cd metal-parser
     pip install .
 
 Documentation
@@ -42,12 +43,12 @@ Documentation
 
 The library comes (at the moment) with 6 APIs:
 
-* get\_songs
-* get\_albums
-* get\_artists
-* get\_lyrics\_by\_artist
-* get\_lyrics\_by\_album
-* get\_lyrics\_by\_song
+* get_artists_list()
+* get_albums_info()
+* get_songs_info()
+* get_album_info_and_lyrics()
+* get_albums_info_and_lyrics_by_artist()
+* get_song_info_and_lyrics()
 
 Some examples
 ~~~~~~~~~~~~~
@@ -59,7 +60,7 @@ Some examples
     api = DarkLyricsApi()
 
 Retrieve the lyrics given a song and the corresponding artist
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -70,7 +71,7 @@ Retrieve the lyrics given a song and the corresponding artist
     print(lyrics)
 
 Get all the songs of a specific album
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 
@@ -82,7 +83,7 @@ Get all the songs of a specific album
     print(songs_list)
 
 Get all the albums of a specific artist
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
 

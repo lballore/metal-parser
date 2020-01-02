@@ -18,6 +18,7 @@ def replace_version(current_version, new_version):
         str(Path(os.path.dirname(os.path.abspath(__file__))).parent) + '/docs/conf.py'
     ]
     current_version = get_current_version()
+    print('Replacing {} tags with {}'.format(current_version, new_version))
 
     for conf_file in files:
         fin = open(conf_file, "rt")
@@ -39,3 +40,5 @@ if __name__ == "__main__":
 
     if version.parse(current_version) >= version.parse(new_version):
         sys.exit('New version is equal or precedent the current version: {} - {}'.format(current_version, new_version))
+    else:
+        replace_version(current_version, new_version)
