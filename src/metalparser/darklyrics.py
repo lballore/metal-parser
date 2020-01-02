@@ -151,6 +151,7 @@ class DarkLyricsApi():
                     lyrics_list.append({
                         "artist": artist.title(),
                         "album": album_info['title'],
+                        "album_type": album_info["type"],
                         "release_year": album_info['release_year'],
                         "title": song_link.text,
                         "track_no": int(url.split('#')[1]),

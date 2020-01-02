@@ -7,6 +7,7 @@ import time
 
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
+from pathlib import Path
 from ratelimit import limits, sleep_and_retry
 
 
@@ -98,8 +99,9 @@ class ScrapingAgent:
     def __create_cached_session(self):
         """Initialize a cached session for requests."""
 
+        cache_path = str(Path(os.path.abspath(__file__)).parent.parent) + '/metalparser_cache'
         cached_session = requests_cache.CachedSession(
-            'metalparser_cache',
+            cache_path,
             backend='sqlite',
             expire_after=self.cache_validity,
             include_get_headers=False
@@ -108,7 +110,7 @@ class ScrapingAgent:
         return cached_session
 
     @sleep_and_retry
-    @limits(calls=60, period=60)
+    @limits(calls=40, period=60)
     def __get_response_with_limiter(self, url):
         """Make an HTTP request to darklyrics.com with a limited amount of calls per minute."""
 
@@ -119,7 +121,7 @@ class ScrapingAgent:
             response = self.cached_session.get(url)
 
         self.last_response = response
-        time.sleep(1)  # Avoid too many reqs per second, which can lead to a blacklist
+        time.sleep(3)  # Avoid too many reqs per second, which can lead to a blacklist
 
         return response
 
