@@ -1,4 +1,4 @@
-beautifulsoup4
-requests
-requests-cache
-ratelimit
+beautifulsoup4>=4.8.2
+requests>=2.21.0
+requests-cache>=0.5.2
+ratelimit>=2.2.1
