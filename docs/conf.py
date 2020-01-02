@@ -22,10 +22,10 @@ copyright = '2019, Luca Ballore'
 author = 'Luca Ballore'
 
 # The short X.Y version
-version = '0.5.5rc3'
+version = '0.5.9rc4'
 
 # The full version, including alpha/beta/rc tags
-release = '0.5.5rc3'
+release = '0.5.9rc4'
 
 
 # -- General configuration ---------------------------------------------------

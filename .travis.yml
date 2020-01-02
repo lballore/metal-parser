@@ -5,6 +5,8 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
+before_install:
+  - pip install pytest --upgrade
 install:
   - pip install -r requirements.txt
   - pip install .
