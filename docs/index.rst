@@ -1,11 +1,18 @@
 Welcome to metalparser's documentation!
 =======================================
 
+"A Python library for heavy metal song lyrics, albums, song titles and other info."
+
 .. toctree::
    :maxdepth: 5
-   :caption: Contents:
+   :caption: Handbook
 
    user_guide
+
+.. toctree::
+   :maxdepth: 5
+   :caption: Technical docs (docstring)
+
    metalparser
 
 

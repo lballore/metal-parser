@@ -1,5 +1,5 @@
-metalparser.common.resources package
-====================================
+Package *metalparser.common.resources*
+======================================
 
 .. automodule:: metalparser.common.resources
    :members:
