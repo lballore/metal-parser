@@ -24,6 +24,7 @@ class ScrapingAgent:
     ----------
     cache_expires_after : int
         Expiring time for cached contents
+
     cached_session : CachedSession
         Object instantiating a cached session for requests
 

@@ -3,6 +3,7 @@ import string
 
 from metalparser.libs.darklyrics_utils import DarkLyricsHelper
 from metalparser.common.exceptions import MetalParserException
+from metalparser.common.logger import MetalParserLogger
 
 
 class DarkLyricsApi():
@@ -13,6 +14,9 @@ class DarkLyricsApi():
     ----------
     use_cache : bool
         Boolean defining if a cached session will be created or not.
+
+    debug_mode : bool
+        Boolean defining when to save debug info on a log file.
 
     Attributes
     ----------
@@ -41,8 +45,9 @@ class DarkLyricsApi():
         Returns a str containing the lyrics of the specified song.
     """
 
-    def __init__(self, use_cache=True):
+    def __init__(self, use_cache=True, debug_mode=False):
         self.helper = DarkLyricsHelper(use_cache)
+        self.logger = MetalParserLogger(debug_mode).get_logger()
 
     def get_artists_list(self, initial_letter=None):
         """
@@ -148,7 +153,7 @@ class DarkLyricsApi():
         album_info = self.helper.get_albums_info_from_url(album_url)
 
         for song_link in songs_links:
-            print('\t\tProcessing song "{}" ...'.format(song_link.text))
+            self.logger.debug('\t\tProcessing song "{}" ...'.format(song_link.text))
             # Don't break the entire job because of a single song
             try:
                 url = self.helper.get_lyrics_url_by_tag(song_link)
@@ -165,7 +170,7 @@ class DarkLyricsApi():
                         "lyrics": self.helper.get_lyrics_by_url(url)
                     })
             except (MetalParserException, Exception) as e:
-                print('Error while processing the song "{}": {}'.format(song_link.text, str(e)))
+                self.logger.error('Error while processing the song "{}": {}'.format(song_link.text, str(e)))
                 continue
 
         return lyrics_list
@@ -181,17 +186,18 @@ class DarkLyricsApi():
             [list] -- A list of dict containing info and lyrics of all the songs related to the specified artist.
         """
 
+        self.logger.debug('Processing artist "{}" ...'.format(artist.title()))
         albums = self.get_albums_info(artist, title_only=True)
         albums_info_lyrics = []
 
         for album in albums:
-            print('\tProcessing album "{}" ...'.format(album))
+            self.logger.debug('\tProcessing album "{}" ...'.format(album))
             # Don't break the entire job because of a single album
             try:
                 album_info_lyrics = self.get_album_info_and_lyrics(album, artist)
                 albums_info_lyrics += album_info_lyrics
             except Exception as e:
-                print('Error while processing the album "{}" by "{}": {}'.format(album, artist, str(e)))
+                self.logger.error('Error while processing the album "{}" by "{}": {}'.format(album, artist, str(e)))
                 continue
 
         return albums_info_lyrics
