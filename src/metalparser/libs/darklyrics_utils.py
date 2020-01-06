@@ -14,6 +14,7 @@ class DarkLyricsHelper:
     ----------
     BASE_URL : str
         DarkLyrics.com base URL
+
     scraping_agent : ScrapingAgent
         The agent taking hand of HTTP requests
 
@@ -311,13 +312,13 @@ class DarkLyricsHelper:
         # Lowercase
         artist = artist.lower()
         # Special cases
-        artist = artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr')
+        artist = artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr').replace('zamieć', 'zamiec')
         # Replace nordic chars with another letter
         artist = artist.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
         # Remove punctuation signs
         artist = re.sub(r'[' + re.escape(string.punctuation) + ']', '', artist)
         # Remove other special chars
-        artist = re.sub(r'[äæøáéíóúýïëöüêčďěňřšťžėūãõ]', '', artist)
+        artist = re.sub(r'[äæøáéíóúýćïëöüêčďěňřšťžėūãõ]', '', artist)
         # Remove whitespaces
         artist = re.sub(r'[' + re.escape(string.whitespace) + ']', '', artist)
 
@@ -329,13 +330,13 @@ class DarkLyricsHelper:
         # Lowercase
         query = query.lower()
         # Special cases
-        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr')
+        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr').replace('zamieć', 'zamiec')
         # Replace nordic chars with another letter
         query.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
         # Remove punctuation signs
         query = re.sub(r'[' + re.escape(string.punctuation) + ']', '', query)
         # Remove other special chars
-        query = re.sub(r'[äæøáéíóúýïëüêčďěňřšťžėūãõ]', '', query)
+        query = re.sub(r'[äæøáéíóúýćïëöüêčďěňřšťžėūãõ]', '', query)
         # Replace whitespaces with '+'
         query = re.sub(r'[' + re.escape(string.whitespace) + ']', '+', query)
 

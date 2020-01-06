@@ -63,7 +63,7 @@ class DarkLyricsApi():
         if initial_letter:
             if len(initial_letter) > 1:
                 raise ValueError("Initial letter must be a string with length = 1")
-            artist_indexes = [initial_letter.lower()]
+            artist_indexes = [initial_letter.lower().replace('#', '19')]
         else:
             artist_indexes = list(string.ascii_lowercase) + ['19']
 
