@@ -107,7 +107,7 @@ class DarkLyricsHelper:
             album_list = artist_page.find_all("div", class_="album")
             for album_tag in album_list:
                 stew_str = str(album_tag.strong).lower()
-                if stew_str.find(album_string) != -1:
+                if stew_str.find('"' + album_string + '"') != -1:
                     album_section = BeautifulSoup(str(album_tag), 'html.parser')
                     links = album_section.find_all('a')
         else:
@@ -311,13 +311,13 @@ class DarkLyricsHelper:
         # Lowercase
         artist = artist.lower()
         # Special cases
-        artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar')
+        artist = artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr')
         # Replace nordic chars with another letter
-        artist.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
+        artist = artist.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
         # Remove punctuation signs
         artist = re.sub(r'[' + re.escape(string.punctuation) + ']', '', artist)
         # Remove other special chars
-        artist = re.sub(r'[äæøáéíóúýïëüêčďěňřšťžėūãõ]', '', artist)
+        artist = re.sub(r'[äæøáéíóúýïëöüêčďěňřšťžėūãõ]', '', artist)
         # Remove whitespaces
         artist = re.sub(r'[' + re.escape(string.whitespace) + ']', '', artist)
 
@@ -329,7 +329,7 @@ class DarkLyricsHelper:
         # Lowercase
         query = query.lower()
         # Special cases
-        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar')
+        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr')
         # Replace nordic chars with another letter
         query.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
         # Remove punctuation signs

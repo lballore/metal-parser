@@ -9,10 +9,15 @@ class DarkLyricsApi():
     """
     A class with APIs for scraping DarkLyrics.com website.
 
+    Parameters
+    ----------
+    use_cache : bool
+        Boolean defining if a cached session will be created or not.
+
     Attributes
     ----------
     helper : DarkLyricsHelper
-        Object containing helpers for DarkLyrics.com APIs
+        Object containing helpers for DarkLyrics.com APIs.
 
     Methods
     -------
@@ -142,8 +147,10 @@ class DarkLyricsApi():
         album_url = self.helper.get_lyrics_url_by_tag(songs_links[0])
         album_info = self.helper.get_albums_info_from_url(album_url)
 
-        try:
-            for song_link in songs_links:
+        for song_link in songs_links:
+            print('\t\tProcessing song "{}" ...'.format(song_link.text))
+            # Don't break the entire job because of a single song
+            try:
                 url = self.helper.get_lyrics_url_by_tag(song_link)
                 if lyrics_only is True:
                     lyrics_list.append(self.helper.get_lyrics_by_url(url))
@@ -157,8 +164,9 @@ class DarkLyricsApi():
                         "track_no": int(url.split('#')[1]),
                         "lyrics": self.helper.get_lyrics_by_url(url)
                     })
-        except MetalParserException as e:
-            print(str(e))
+            except (MetalParserException, Exception) as e:
+                print('Error while processing the song "{}": {}'.format(song_link.text, str(e)))
+                continue
 
         return lyrics_list
 
@@ -177,8 +185,14 @@ class DarkLyricsApi():
         albums_info_lyrics = []
 
         for album in albums:
-            album_info_lyrics = self.get_album_info_and_lyrics(album, artist)
-            albums_info_lyrics += album_info_lyrics
+            print('\tProcessing album "{}" ...'.format(album))
+            # Don't break the entire job because of a single album
+            try:
+                album_info_lyrics = self.get_album_info_and_lyrics(album, artist)
+                albums_info_lyrics += album_info_lyrics
+            except Exception as e:
+                print('Error while processing the album "{}" by "{}": {}'.format(album, artist, str(e)))
+                continue
 
         return albums_info_lyrics
 
