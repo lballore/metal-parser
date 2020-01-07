@@ -1,5 +1,5 @@
-metalparser.common package
-==========================
+Package *metalparser.common*
+============================
 
 .. automodule:: metalparser.common
    :members:
@@ -13,19 +13,24 @@ Subpackages
 
    metalparser.common.resources
 
-Submodules
-----------
-
-metalparser.common.exceptions module
-------------------------------------
+Module *metalparser.common.exceptions*
+--------------------------------------
 
 .. automodule:: metalparser.common.exceptions
    :members:
    :undoc-members:
    :show-inheritance:
 
-metalparser.common.scraping module
+Module *metalparser.common.logger*
 ----------------------------------
+
+.. automodule:: metalparser.common.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module *metalparser.common.scraping*
+------------------------------------
 
 .. automodule:: metalparser.common.scraping
    :members:

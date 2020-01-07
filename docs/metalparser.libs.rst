@@ -1,16 +1,13 @@
-metalparser.libs package
-========================
+Package *metalparser.libs*
+==========================
 
 .. automodule:: metalparser.libs
    :members:
    :undoc-members:
    :show-inheritance:
 
-Submodules
-----------
-
-metalparser.libs.darklyrics\_utils module
------------------------------------------
+Module *metalparser.libs.darklyrics\_utils*
+-------------------------------------------
 
 .. automodule:: metalparser.libs.darklyrics_utils
    :members:

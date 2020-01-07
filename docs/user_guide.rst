@@ -53,6 +53,9 @@ The library comes (at the moment) with 6 APIs:
 Some examples
 ~~~~~~~~~~~~~
 
+I recommend not to change the default settings regarding requests rate per minute and the wait time (3 secs) after each request.
+DarkLyrics does not have a robots.txt, so they don't really like scraping. Be gentle! :)
+
 ::
 
     from metalparser.darklyrics import DarkLyricsApi

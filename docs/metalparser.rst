@@ -1,5 +1,5 @@
-Docstring: metalparser package
-==============================
+Package *metalparser*
+=====================
 
 .. automodule:: metalparser
    :members:
@@ -14,11 +14,9 @@ Subpackages
    metalparser.common
    metalparser.libs
 
-Submodules
-----------
 
-metalparser.darklyrics module
------------------------------
+Module *metalparser.darklyrics*
+-------------------------------
 
 .. automodule:: metalparser.darklyrics
    :members:

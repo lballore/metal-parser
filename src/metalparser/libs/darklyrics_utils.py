@@ -14,6 +14,7 @@ class DarkLyricsHelper:
     ----------
     BASE_URL : str
         DarkLyrics.com base URL
+
     scraping_agent : ScrapingAgent
         The agent taking hand of HTTP requests
 
@@ -107,7 +108,7 @@ class DarkLyricsHelper:
             album_list = artist_page.find_all("div", class_="album")
             for album_tag in album_list:
                 stew_str = str(album_tag.strong).lower()
-                if stew_str.find(album_string) != -1:
+                if stew_str.find('"' + album_string + '"') != -1:
                     album_section = BeautifulSoup(str(album_tag), 'html.parser')
                     links = album_section.find_all('a')
         else:
@@ -136,11 +137,13 @@ class DarkLyricsHelper:
         albums_list = []
 
         for line in album_headlines:
-            if(len(line.text.split('"')) > 1 and any(elem in line.text.lower() for elem in ['album', 'ep', 'demo'])):
+            album_line_parts = line.text.split('"')
+            is_valid_album_type = any(elem in album_line_parts[0].lower() for elem in ['album', 'ep', 'demo'])
+            if(len(album_line_parts) > 1 and is_valid_album_type):
                 if title_only is False:
                     albums_list.append({
-                        'title': line.text.split('"')[1],
-                        'type': line.text.split('"')[0].replace(':', '').strip(),
+                        'title': album_line_parts[1],
+                        'type': album_line_parts[0].replace(':', '').strip(),
                         'release_year': line.text.split('(')[1].replace(')', '')
                     })
                 else:
@@ -311,13 +314,13 @@ class DarkLyricsHelper:
         # Lowercase
         artist = artist.lower()
         # Special cases
-        artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar')
+        artist = artist.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr').replace('zamieć', 'zamiec')
         # Replace nordic chars with another letter
-        artist.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
+        artist = artist.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
         # Remove punctuation signs
         artist = re.sub(r'[' + re.escape(string.punctuation) + ']', '', artist)
         # Remove other special chars
-        artist = re.sub(r'[äæøáéíóúýïëüêčďěňřšťžėūãõ]', '', artist)
+        artist = re.sub(r'[äæøáéíóúýćïëöüêčďěňřšťžėūãõ]', '', artist)
         # Remove whitespaces
         artist = re.sub(r'[' + re.escape(string.whitespace) + ']', '', artist)
 
@@ -329,13 +332,13 @@ class DarkLyricsHelper:
         # Lowercase
         query = query.lower()
         # Special cases
-        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar')
+        query.replace('+\\-', '2').replace('vhäldemar', 'vhaldemar').replace('øscillatör', 'scillatr').replace('zamieć', 'zamiec')
         # Replace nordic chars with another letter
         query.replace('ø', 'o').replace('ö', 'o').replace('ü', 'u').replace('å', 'a').replace(u'æ', u'e')
         # Remove punctuation signs
         query = re.sub(r'[' + re.escape(string.punctuation) + ']', '', query)
         # Remove other special chars
-        query = re.sub(r'[äæøáéíóúýïëüêčďěňřšťžėūãõ]', '', query)
+        query = re.sub(r'[äæøáéíóúýćïëöüêčďěňřšťžėūãõ]', '', query)
         # Replace whitespaces with '+'
         query = re.sub(r'[' + re.escape(string.whitespace) + ']', '+', query)
 
