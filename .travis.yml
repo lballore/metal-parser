@@ -13,4 +13,4 @@ install:
   - pip install -r requirements.txt
   - pip install .
 script:
-  - pytest -rAsq
+  - pytest -rAsq --reruns 10 --reruns-delay 5
