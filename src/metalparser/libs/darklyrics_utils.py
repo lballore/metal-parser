@@ -137,11 +137,13 @@ class DarkLyricsHelper:
         albums_list = []
 
         for line in album_headlines:
-            if(len(line.text.split('"')) > 1 and any(elem in line.text.lower() for elem in ['album', 'ep', 'demo'])):
+            album_line_parts = line.text.split('"')
+            is_valid_album_type = any(elem in album_line_parts[0].lower() for elem in ['album', 'ep', 'demo'])
+            if(len(album_line_parts) > 1 and is_valid_album_type):
                 if title_only is False:
                     albums_list.append({
-                        'title': line.text.split('"')[1],
-                        'type': line.text.split('"')[0].replace(':', '').strip(),
+                        'title': album_line_parts[1],
+                        'type': album_line_parts[0].replace(':', '').strip(),
                         'release_year': line.text.split('(')[1].replace(')', '')
                     })
                 else:
