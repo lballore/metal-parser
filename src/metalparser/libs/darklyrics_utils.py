@@ -144,7 +144,7 @@ class DarkLyricsHelper:
                     albums_list.append({
                         'title': album_line_parts[1],
                         'type': album_line_parts[0].replace(':', '').strip(),
-                        'release_year': line.text.split('(')[1].replace(')', '')
+                        'release_year': line.text.split('"')[2].replace(')', '').replace('(', '').strip()
                     })
                 else:
                     albums_list.append(line.text.split('"')[1])
@@ -177,7 +177,7 @@ class DarkLyricsHelper:
         else:
             return {
                 'title': album_info_text.split('"')[1],
-                'release_year': album_info_text.split('(')[1].replace(')', ''),
+                'release_year': album_info_text.split('"')[2].replace(')', '').replace('(', '').strip(),
                 'type': album_info_text.split('"')[0].replace(':', '').strip()
             }
 

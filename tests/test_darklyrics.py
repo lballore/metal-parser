@@ -218,17 +218,17 @@ def test_get_songs_list_from_artist_song_negative():
 @pytest.mark.skipif(os.environ.get('TRAVIS') == 'true', reason=SKIP_ON_TRAVIS)
 def test_get_album_info_and_lyrics():
     api = DarkLyricsApi()
-    artist = 'slayer'
-    album = 'reign in blood'
+    artist = 'venom'
+    album = 'Eine Kleine Nachtmusik (Live)'
     info_lyrics_list = api.get_album_info_and_lyrics(album=album, artist=artist)
     found_lyrics = None
 
     for info_lyrics in info_lyrics_list:
-        if info_lyrics['title'] == 'Postmortem' and info_lyrics['track_no'] == 9:
+        if info_lyrics['title'] == 'Nightmare' and info_lyrics['track_no'] == 5 and info_lyrics['release_year'] == '1986':
             found_lyrics = info_lyrics
             break
 
-    assert found_lyrics is not None and 'chanting lines of blind witchery' in found_lyrics['lyrics'].lower()
+    assert found_lyrics is not None and 'fools scream out destiny' in found_lyrics['lyrics'].lower()
 
 
 def test_get_album_info_and_lyrics_negative():
