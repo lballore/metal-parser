@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metalparser',
-    version='0.6.7b1',
+    version='0.6.9b1',
     description='Python library for heavy metal song lyrics, albums, song titles and other info.',
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
